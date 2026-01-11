@@ -28,11 +28,11 @@ RUN set -eux \
     && mv pas2js*.tar.gz /export/pas2js-archive.tar.gz
 
 FROM debian:13-slim AS final
-COPY --from=build /export/pas2js-archive.tar.gz /opt/pas2js/pas2js-archive.tar.gz 
+COPY --from=build /export/pas2js-archive.tar.gz /opt/pas2js/pas2js-archive.tar.gz
 
-# Extract the package before copying to the final image
 WORKDIR /opt/pas2js
 RUN tar -xzf pas2js-archive.tar.gz && \
+    rm pas2js-archive.tar.gz && \
     ln -s /opt/pas2js/bin/pas2js /usr/bin/pas2js
 
 CMD ["/usr/bin/pas2js", "-h"]
